@@ -270,10 +270,10 @@
 
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
-\group{G99}
-\studentA{102504}{Pedro Augusto Camargo }
-\studentB{xxxxxx}{Carlos Fernandes }
-\studentC{xxxxxx}{José Bernardo Moniz Fernandes }
+\group{G19}
+\studentA{102499}{Carlos Daniel Silva Fernandes}
+\studentB{102497}{José Bernardo Moniz Fernandes}
+\studentC{102504}{Pedro Augusto Camargo}
 
 %==============================================================================%
 
@@ -811,7 +811,7 @@ Votos desperdiçados:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{waste}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{waste}\mathrel{=}\Varid{sum}\;(\map \;(\p1\comp \p2)\;\Varid{last}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 Corpo do ciclo-\textbf{for}:
@@ -908,6 +908,54 @@ Genes de \ensuremath{\Varid{mergek}}:
 \end{hscode}\resethooks
 
 \subsection*{Problema 3}
+Para a simplificação do algoritmo de Catalan sem recurso ao cálculo dos factoriais
+é necessário reescrever a fórmula. A simplificação é a seguinte descrita:
+
+\begin{eqnarray}
+	C_n = \frac{(2n)!}{(n+1)! (n!) }
+	\label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{(2n)(2n-1)!}{(n+1)n!*n(n-1)! }
+    \label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{2(2n-1)!}{(n+1)n!*(n-1)! }
+    \label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{2(2n-1)(2n-2)!}{(n+1)n!*(n-1)(n-2)! }
+    \label{eq:cat}
+\end{eqnarray}
+...
+
+A continuação da simplificação matemática mostraria que era possível
+o número dé Catalan atual, usando o número de Catalan anterior.
+
+Pelo link da Wikipédia disponibilizada pela equipa docente sabemos que:
+\begin{eqnarray}
+    C_0 = 1
+    \label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{2(2n-1)}{n+1 }*C_n-1
+    \label{eq:cat}
+\end{eqnarray}
+Que iremos simplificar para 
+\begin{eqnarray}
+    C_n = \frac{4n-2}{n+1 }*C_n-1
+    \label{eq:cat}
+\end{eqnarray}
+Para reduzir o número de operações.
+
+Sabendo como se escreve \begin{eqnarray}C_n\label{eq:cat}
+\end{eqnarray} através de \begin{eqnarray}C_n-1\label{eq:cat}
+\end{eqnarray} é possível escrever a recursividade mútua do algoritmo.
+
+O nosso inic será composto por um par (a,b) que será inicializado com (1,1).
+O loop é responsável por aplicar a função succ ao primeiro elemneto do inic e no segundo elemento chamar a função recursiva.
+A primeira componente do inic serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
+Sendo assim, ficamos com o seguinte algoritmo:
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -919,11 +967,11 @@ onde:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{loop}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{loop}\;(\Varid{a},\Varid{b})\mathrel{=}(\Varid{a}\mathbin{+}\mathrm{1},\Varid{b}\mathbin{*}((\mathrm{4}\mathbin{*}\Varid{a})\mathbin{-}\mathrm{2})\mathbin{:}\Varid{a}\mathbin{+}\mathrm{1}){}\<[E]%
 \\
-\>[B]{}\Varid{inic}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{inic}\mathrel{=}(\mathrm{1},\mathrm{1}){}\<[E]%
 \\
-\>[B]{}\Varid{prj}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{prj}\mathrel{=}\p2{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 

@@ -1,0 +1,56 @@
+\begin{theindex}
+
+  \item \LaTeX  , \hyperpage{4, 5}
+    \subitem \texttt  {bibtex}, \hyperpage{5}
+    \subitem \texttt  {lhs2TeX}, \hyperpage{4--6}
+    \subitem \texttt  {makeindex}, \hyperpage{5}
+    \subitem \texttt  {pdflatex}, \hyperpage{4}
+
+  \indexspace
+
+  \item Combinador ``pointfree''
+    \subitem \emph  {hylo}
+      \subsubitem Listas, \hyperpage{2}, \hyperpage{9}
+    \subitem \emph  {split}, \hyperpage{6}
+  \item Comissão Nacional de Eleições, \hyperpage{1}
+    \subitem Método de Hondt, \hyperpage{1}
+  \item Cálculo de Programas, \hyperpage{1}, \hyperpage{4}, 
+		\hyperpage{6}
+    \subitem Material Pedagógico, \hyperpage{4}
+      \subsubitem LTree.hs, \hyperpage{2}, \hyperpage{8, 9}
+      \subsubitem mSort ('merge sort'), \hyperpage{2}
+
+  \indexspace
+
+  \item Docker, \hyperpage{4}
+    \subitem container, \hyperpage{4, 5}
+
+  \indexspace
+
+  \item Functor, \hyperpage{6}
+  \item Função
+    \subitem $\pi _1$, \hyperpage{6--8}
+    \subitem $\pi _2$, \hyperpage{6--8}, \hyperpage{10}
+    \subitem \emph  {for}, \hyperpage{2, 3}, \hyperpage{7}, 
+		\hyperpage{10}
+    \subitem \emph  {map}, \hyperpage{7, 8}
+
+  \indexspace
+
+  \item Haskell, \hyperpage{1}, \hyperpage{4, 5}
+    \subitem interpretador
+      \subsubitem GHCi, \hyperpage{4, 5}
+    \subitem Literate Haskell, \hyperpage{4}
+
+  \indexspace
+
+  \item Números de Catalan, \hyperpage{2}, \hyperpage{8}
+  \item Números naturais ($\mathbb  {N}$), \hyperpage{6, 7}
+
+  \indexspace
+
+  \item Programação
+    \subitem dinâmica, \hyperpage{6}
+    \subitem literária, \hyperpage{4}, \hyperpage{6}
+
+\end{theindex}
