@@ -118,10 +118,10 @@
 
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
-\group{G99}
-\studentA{102504}{Pedro Augusto Camargo }
-\studentB{xxxxxx}{Carlos Fernandes }
-\studentC{xxxxxx}{José Bernardo Moniz Fernandes }
+\group{G19}
+\studentA{102499}{Carlos Daniel Silva Fernandes}
+\studentB{102497}{José Bernardo Moniz Fernandes}
+\studentC{102504}{Pedro Augusto Camargo}
 
 %==============================================================================%
 
@@ -593,7 +593,7 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 \subsection*{Problema 1}
 Votos desperdiçados:
 \begin{code}
-waste = undefined
+waste = sum (map (p1 . p2) last)
 \end{code}
 Corpo do ciclo-\textbf{for}:
 \begin{code}
@@ -675,15 +675,63 @@ mSortk k = undefined
 \end{code}
 
 \subsection*{Problema 3}
+Para a simplificação do algoritmo de Catalan sem recurso ao cálculo dos factoriais
+é necessário reescrever a fórmula. A simplificação é a seguinte descrita:
+
+\begin{eqnarray}
+	C_n = \frac{(2n)!}{(n+1)! (n!) }
+	\label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{(2n)(2n-1)!}{(n+1)n!*n(n-1)! }
+    \label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{2(2n-1)!}{(n+1)n!*(n-1)! }
+    \label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{2(2n-1)(2n-2)!}{(n+1)n!*(n-1)(n-2)! }
+    \label{eq:cat}
+\end{eqnarray}
+...
+
+A continuação da simplificação matemática mostraria que era possível
+o número dé Catalan atual, usando o número de Catalan anterior.
+
+Pelo link da Wikipédia disponibilizada pela equipa docente sabemos que:
+\begin{eqnarray}
+    C_0 = 1
+    \label{eq:cat}
+\end{eqnarray}
+\begin{eqnarray}
+    C_n = \frac{2(2n-1)}{n+1 }*C_n-1
+    \label{eq:cat}
+\end{eqnarray}
+Que iremos simplificar para 
+\begin{eqnarray}
+    C_n = \frac{4n-2}{n+1 }*C_n-1
+    \label{eq:cat}
+\end{eqnarray}
+Para reduzir o número de operações.
+
+Sabendo como se escreve \begin{eqnarray}C_n\label{eq:cat}
+\end{eqnarray} através de \begin{eqnarray}C_n-1\label{eq:cat}
+\end{eqnarray} é possível escrever a recursividade mútua do algoritmo.
+
+O nosso inic será composto por um par (a,b) que será inicializado com (1,1).
+O loop é responsável por aplicar a função succ ao primeiro elemneto do inic e no segundo elemento chamar a função recursiva.
+A primeira componente do inic serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
+Sendo assim, ficamos com o seguinte algoritmo:
 
 \begin{code}
-cat = prj . (for loop inic)
+cat = prj . for loop inic
 \end{code}
 onde:
 \begin{code}
-loop = undefined
-inic = undefined 
-prj = undefined
+loop (a, b) = (a + 1, b * ((4 * a) - 2) : a + 1) 
+inic = (1,1) 
+prj = p2
 \end{code}
 
 \subsection*{Problema 4}
