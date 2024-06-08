@@ -811,7 +811,9 @@ Votos desperdiçados:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{waste}\mathrel{=}\Varid{sum}\;(\map \;(\p1\comp \p2)\;\Varid{last}){}\<[E]%
+\>[B]{}\Varid{waste}\mathrel{=}\bot {}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  sum (map (p1 . p2) last)}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 Corpo do ciclo-\textbf{for}:
@@ -824,86 +826,66 @@ Corpo do ciclo-\textbf{for}:
 
 \subsection*{Problema 2}
 
-Temos o diagrama de mSort:
-
-\begin{eqnarray*}         
-\xymatrix@C=2cm{
-    \ensuremath{\Conid{A}\mathbin{*}}
-           \ar[r]^-{\mathsf{lsplit}}
-           \ar[d]_-{[(lsplit)]}
-&
-    \ensuremath{\Conid{Int}\mathbin{+}({\LTree}\;\Conid{Int}\mathbin{*})\times({\LTree}\;\Conid{Int}\mathbin{*})}
-           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{lsplit}\times\Varid{lsplit}}}
-        %    \ar@@/^/[l]^-{\mathsf{in}}
-\\
-    \ensuremath{\Conid{Int}}
-        \ar@/^/[r]^-{\mathsf{out}}
-        \ar[d]_-{(\ensuremath{[\mskip1.5mu \Varid{singl},\Varid{merge}\mskip1.5mu]})}
-&
-    \ensuremath{\Conid{Int}\mathbin{+}({\LTree}\;\Conid{Int}\mathbin{*})\times({\LTree}\;\Conid{Int}\mathbin{*})}
-           \ar@/^/[l]^-{\mathsf{[Leaf, Fork]}}
-           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}[\mskip1.5mu \Varid{singl},\Varid{merge}\mskip1.5mu]\times[\mskip1.5mu \Varid{singl},\Varid{merge}\mskip1.5mu]}}
-\\
-    \ensuremath{\Conid{B}\mathbin{*}}
-&
-    \ensuremath{\Conid{Int}\mathbin{+}({\LTree}\;\Conid{Int}\times{\LTree}\;\Conid{Int})}
-           \ar[l]^-{\mathsf{[singl, merge]}}
-}
-\end{eqnarray*}
-
-O diagrama de mSortK seria algo assim:
-
-\begin{eqnarray*}         
-\xymatrix@C=2cm{
-    \ensuremath{\Conid{A}\mathbin{*}}
-           \ar[r]^-{\mathsf{splitK}}
-           \ar[d]_-{[(splitK)]}
-&
-    \ensuremath{\Conid{Int}\mathbin{+}({\LTree}\;\Conid{Int}\mathbin{*})\mathbin{*}}
-           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{splitK}\mathbin{*}}}
-\\
-    \ensuremath{\Conid{Int}}
-        \ar@/^/[r]^-{\mathsf{out}}
-        \ar[d]_-{(\ensuremath{[\mskip1.5mu \Varid{singl},\Varid{mergek}\mskip1.5mu]})}
-&
-    \ensuremath{\Conid{Int}\mathbin{+}({\LTree}\;\Conid{Int}\mathbin{*})\mathbin{*}}
-           \ar@/^/[l]^-{\mathsf{in}}
-           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}[\mskip1.5mu \Varid{singl},\Varid{mergek}\mskip1.5mu]\mathbin{*}}}
-\\
-    \ensuremath{\Conid{B}\mathbin{*}}
-&
-    \ensuremath{\Conid{Int}\mathbin{+}({\LTree}\;\Conid{Int}\mathbin{*})\mathbin{*}}
-           \ar[l]^-{\mathsf{[singl, mergek]}}
-}
-\end{eqnarray*}
-
-Para isso temos que definir os genes de mergek, q eu não faço ideia como se faz.
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{mergek}\mathrel{=}\hyloList{\Varid{f}}{\Varid{g}}{}\<[E]%
-\\
-\>[B]{}\Varid{f}\mathrel{=}\Varid{splitK}{}\<[E]%
-\\
-\>[B]{}\Varid{g}\mathrel{=}[\mskip1.5mu \Varid{singl},\Varid{mergek}\mskip1.5mu]{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
 Genes de \ensuremath{\Varid{mergek}}:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{25}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{f}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{f}\mathrel{=}\Varid{inList}{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{g}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{g}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}i_1\;(){}\<[E]%
+\\
+\>[B]{}\Varid{g}\;\Varid{l}\mathrel{=}\mathbf{if}\;\Varid{filter}\;(\not\equiv [\mskip1.5mu \mskip1.5mu])\;\Varid{l}\equiv [\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{then}\;i_1\;(){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{else}\;i_2\;(\Varid{m},\Varid{l'})\;\mathbf{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{4}{}\<[9]%
+\>[9]{}\Varid{m}\mathrel{=}\Varid{minimum}\;(\map \;\Varid{head}\;\Varid{x}){}\<[E]%
+\\
+\>[5]{}\hsindent{4}{}\<[9]%
+\>[9]{}\Varid{l'}\mathrel{=}\Varid{aux}\;\Varid{m}\;\Varid{x}{}\<[E]%
+\\
+\>[5]{}\hsindent{4}{}\<[9]%
+\>[9]{}\Varid{aux}\;\anonymous \;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[5]{}\hsindent{4}{}\<[9]%
+\>[9]{}\Varid{aux}\;\Varid{m}\;(\Varid{h}\mathbin{:}\Varid{t})\mathrel{=}\mathbf{if}\;\Varid{m}\equiv \Varid{head}\;\Varid{h}{}\<[E]%
+\\
+\>[9]{}\hsindent{16}{}\<[25]%
+\>[25]{}\mathbf{then}\;\Varid{tail}\;\Varid{h}\mathbin{:}\Varid{t}{}\<[E]%
+\\
+\>[9]{}\hsindent{16}{}\<[25]%
+\>[25]{}\mathbf{else}\;\Varid{h}\mathbin{:}\Varid{aux}\;\Varid{m}\;\Varid{t}{}\<[E]%
+\\
+\>[5]{}\hsindent{4}{}\<[9]%
+\>[9]{}\Varid{x}\mathrel{=}\Varid{filter}\;(\not\equiv [\mskip1.5mu \mskip1.5mu])\;\Varid{l}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
 \noindent Extensão de \ensuremath{\Varid{mSort}}:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{mSortk}\;\Varid{k}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{mSortk}\;\Varid{k}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{mSortk}\;\Varid{k}\;\Varid{l}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \length \;\Varid{l}\leq \mathrm{1}\mathrel{=}\Varid{l}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{otherwise}\mathrel{=}\mathbf{let}\;\Varid{chunks}\mathrel{=}\Varid{chunksOf}\;(\length \;\Varid{l}\mathbin{\Varid{`div`}}\Varid{k})\;\Varid{l}{}\<[E]%
+\\
+\>[5]{}\hsindent{12}{}\<[17]%
+\>[17]{}\mathbf{in}\;\Varid{mergek}\;(\map \;(\Varid{mSortk}\;\Varid{k})\;\Varid{chunks}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -912,8 +894,8 @@ Para a simplificação do algoritmo de Catalan sem recurso ao cálculo dos facto
 é necessário reescrever a fórmula. A simplificação é a seguinte descrita:
 
 \begin{eqnarray}
-	C_n = \frac{(2n)!}{(n+1)! (n!) }
-	\label{eq:cat}
+C_n = \frac{(2n)!}{(n+1)! (n!) }
+\label{eq:cat}
 \end{eqnarray}
 \begin{eqnarray}
     C_n = \frac{(2n)(2n-1)!}{(n+1)n!*n(n-1)! }
@@ -967,7 +949,7 @@ onde:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{loop}\;(\Varid{a},\Varid{b})\mathrel{=}(\Varid{a}\mathbin{+}\mathrm{1},\Varid{b}\mathbin{*}((\mathrm{4}\mathbin{*}\Varid{a})\mathbin{-}\mathrm{2})\mathbin{:}\Varid{a}\mathbin{+}\mathrm{1}){}\<[E]%
+\>[B]{}\Varid{loop}\;(\Varid{a},\Varid{b})\mathrel{=}(\Varid{a}\mathbin{+}\mathrm{1},\Varid{b}\mathbin{*}((\mathrm{4}\mathbin{*}\Varid{a})\mathbin{-}\mathrm{2})\mathbin{\Varid{`div`}}(\Varid{a}\mathbin{+}\mathrm{1})){}\<[E]%
 \\
 \>[B]{}\Varid{inic}\mathrel{=}(\mathrm{1},\mathrm{1}){}\<[E]%
 \\

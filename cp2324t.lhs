@@ -593,7 +593,8 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 \subsection*{Problema 1}
 Votos desperdiçados:
 \begin{code}
-waste = sum (map (p1 . p2) last)
+waste = undefined
+
 \end{code}
 Corpo do ciclo-\textbf{for}:
 \begin{code}
@@ -602,76 +603,30 @@ step = undefined
 
 \subsection*{Problema 2}
 
-Temos o diagrama de mSort:
-
-\begin{eqnarray*}         
-\xymatrix@@C=2cm{
-    |A*|
-           \ar[r]^-{\mathsf{lsplit}}
-           \ar[d]_-{[(lsplit)]}
-&
-    |Int + (LTree Int*) >< (LTree Int*)|
-           \ar[d]^-{|id + lsplit >< lsplit|}
-        %    \ar@@/^/[l]^-{\mathsf{in}}
-\\
-    |Int|
-        \ar@@/^/[r]^-{\mathsf{out}}
-        \ar[d]_-{(|[singl,merge]|)}
-&
-    |Int + (LTree Int*) >< (LTree Int*)|
-           \ar@@/^/[l]^-{\mathsf{[Leaf, Fork]}}
-           \ar[d]^-{|id + [singl,merge] >< [singl,merge]|}
-\\
-    |B*|
-&
-    |Int + (LTree Int >< LTree Int)|
-           \ar[l]^-{\mathsf{[singl, merge]}}
-}
-\end{eqnarray*}
-
-O diagrama de mSortK seria algo assim:
-
-\begin{eqnarray*}         
-\xymatrix@@C=2cm{
-    |A*|
-           \ar[r]^-{\mathsf{splitK}}
-           \ar[d]_-{[(splitK)]}
-&
-    |Int + (LTree Int*)*|
-           \ar[d]^-{|id + splitK*|}
-\\
-    |Int|
-        \ar@@/^/[r]^-{\mathsf{out}}
-        \ar[d]_-{(|[singl,mergek]|)}
-&
-    |Int + (LTree Int*)*|
-           \ar@@/^/[l]^-{\mathsf{in}}
-           \ar[d]^-{|id + [singl, mergek]*|}
-\\
-    |B*|
-&
-    |Int + (LTree Int*)*|
-           \ar[l]^-{\mathsf{[singl, mergek]}}
-}
-\end{eqnarray*}
-
-Para isso temos que definir os genes de mergek, q eu não faço ideia como se faz.
-\begin{code}
-mergek = hyloList f g
-f = splitK
-g = [singl, mergek]
-\end{code}
-
 Genes de |mergek|:
 \begin{code}
-f = undefined
+f = inList
 
-g = undefined
+g [] = i1 ()
+g l = if filter (/= []) l == []
+    then i1 ()
+    else i2 (m, l') where
+        m = minimum (map head x)
+        l' = aux m x
+        aux _ [] = []
+        aux m (h:t) = if m == head h
+                        then tail h : t
+                        else h : aux m t 
+        x = filter (/= []) l
 \end{code}
 
 \noindent Extensão de |mSort|:
 \begin{code}
-mSortk k = undefined
+mSortk k [] = []
+mSortk k l
+    | length l <= 1 = l
+    | otherwise = let chunks = chunksOf (length l `div` k) l
+                in mergek (map (mSortk k) chunks)
 \end{code}
 
 \subsection*{Problema 3}
@@ -679,8 +634,8 @@ Para a simplificação do algoritmo de Catalan sem recurso ao cálculo dos facto
 é necessário reescrever a fórmula. A simplificação é a seguinte descrita:
 
 \begin{eqnarray}
-	C_n = \frac{(2n)!}{(n+1)! (n!) }
-	\label{eq:cat}
+C_n = \frac{(2n)!}{(n+1)! (n!) }
+\label{eq:cat}
 \end{eqnarray}
 \begin{eqnarray}
     C_n = \frac{(2n)(2n-1)!}{(n+1)n!*n(n-1)! }
@@ -729,7 +684,7 @@ cat = prj . for loop inic
 \end{code}
 onde:
 \begin{code}
-loop (a, b) = (a + 1, b * ((4 * a) - 2) : a + 1) 
+loop (a, b) = (a + 1, b * ((4 * a) - 2) `div` (a + 1)) 
 inic = (1,1) 
 prj = p2
 \end{code}
