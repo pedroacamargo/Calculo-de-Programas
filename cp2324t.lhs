@@ -182,6 +182,7 @@ import Prob
 import Probability hiding (D)
 import Data.Char
 import Data.List hiding (find)
+import Data.Ord
 import Data.List.Split  hiding (split)
 -- import Svg hiding (for)
 import Control.Monad
@@ -593,12 +594,21 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 \subsection*{Problema 1}
 Votos desperdiçados:
 \begin{code}
-waste = undefined
+waste = sum . map (p1 . p2) . last
 
 \end{code}
 Corpo do ciclo-\textbf{for}:
 \begin{code}
-step = undefined
+step [] = []
+step l = aux m l
+        where
+          m = maximumBy (comparing (p1 . p2)) l
+          aux _ [] = []
+          aux (pm, (vm, dm)) ((p, (v, d)) : as)
+            | pm == p && dm == 0 = (p, (v `div` 2, succ d)) : aux (pm, (vm, dm)) as
+            | pm == p = (p, ((v * (d + 1)) `div` (d + 2), succ d)) : aux (pm, (vm, dm)) as
+            | otherwise = (p, (v, d)) : aux (pm, (vm, dm)) as
+
 \end{code}
 
 \subsection*{Problema 2}
