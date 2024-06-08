@@ -188,6 +188,7 @@ import Data.List.Split  hiding (split)
 import Control.Monad
 import Control.Applicative hiding ((<|>))
 import System.Process
+import RelCalc (hist)
 -- import Control.Concurrent
 
 main = undefined
@@ -592,24 +593,33 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 \end{alert}
 
 \subsection*{Problema 1}
-Votos desperdiçados:
+Ao analisar este problema, percebemos que a chave para o resolver seria a forma como 
+construíamos o history. Para isso começámos por definir o \textbf{step} e posteriormente o \textbf{waste}.
+
 \begin{code}
 waste = sum . map (p1 . p2) . last
-
 \end{code}
-Corpo do ciclo-\textbf{for}:
+
+O nosso \textbf{waste} soma todos os votos da última lista do history, que contém os votos desperdiçados. 
+
+Já no \textbf{step}, descobrimos o partido com mais votos, 
+se houver empate damos preferência ao partido com menos deputados e verificamos se tem 0 deputados.
+
 \begin{code}
 step [] = []
-step l = aux m l
+step l = aux maxPair l
         where
-          m = maximumBy (comparing (p1 . p2)) l
+          maxPair = maximumBy (comparing (p1 . p2)) l
           aux _ [] = []
-          aux (pm, (vm, dm)) ((p, (v, d)) : as)
-            | pm == p && dm == 0 = (p, (v `div` 2, succ d)) : aux (pm, (vm, dm)) as
-            | pm == p = (p, ((v * (d + 1)) `div` (d + 2), succ d)) : aux (pm, (vm, dm)) as
-            | otherwise = (p, (v, d)) : aux (pm, (vm, dm)) as
-
+          aux (maxP, (maxV, maxD)) ((p, (v, d)) : rest)
+            | maxP == p && maxD == 0 = (p, (v `div` 2, succ d)) : aux maxPair rest
+            | maxP == p = (p, ((v * succ d) `div` (d + 2), succ d)) : aux maxPair rest
+            | otherwise = (p, (v, d)) : aux maxPair rest
 \end{code}
+
+Se tiver 0 deputados, para obter os votos, dividimos os votos totais desse partido por 2. 
+Se não for 0, dividimos os votos totais desse partido pelo seu número de deputados mais 2.
+E por fim adicionamos um deputado a esse partido.
 
 \subsection*{Problema 2}
 

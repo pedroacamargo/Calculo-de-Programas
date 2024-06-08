@@ -807,14 +807,21 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 \end{alert}
 
 \subsection*{Problema 1}
-Votos desperdiçados:
+Ao analisar este problema, percebemos que a chave para o resolver seria a forma como 
+construíamos o history. Para isso começámos por definir o \textbf{step} e posteriormente o \textbf{waste}.
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{waste}\mathrel{=}\Varid{sum}\comp \map \;(\p1\comp \p2)\comp \Varid{last}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
-Corpo do ciclo-\textbf{for}:
+
+O nosso \textbf{waste} soma todos os votos da última lista do history, que contém os votos desperdiçados. 
+
+Já no \textbf{step}, descobrimos o partido com mais votos, 
+se houver empate damos preferência ao partido com menos deputados e verificamos se tem 0 deputados.
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{9}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -823,30 +830,34 @@ Corpo do ciclo-\textbf{for}:
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{step}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
 \\
-\>[B]{}\Varid{step}\;\Varid{l}\mathrel{=}\Varid{aux}\;\Varid{m}\;\Varid{l}{}\<[E]%
+\>[B]{}\Varid{step}\;\Varid{l}\mathrel{=}\Varid{aux}\;\Varid{maxPair}\;\Varid{l}{}\<[E]%
 \\
 \>[B]{}\hsindent{9}{}\<[9]%
 \>[9]{}\mathbf{where}{}\<[E]%
 \\
 \>[9]{}\hsindent{2}{}\<[11]%
-\>[11]{}\Varid{m}\mathrel{=}\Varid{maximumBy}\;(\Varid{comparing}\;(\p1\comp \p2))\;\Varid{l}{}\<[E]%
+\>[11]{}\Varid{maxPair}\mathrel{=}\Varid{maximumBy}\;(\Varid{comparing}\;(\p1\comp \p2))\;\Varid{l}{}\<[E]%
 \\
 \>[9]{}\hsindent{2}{}\<[11]%
 \>[11]{}\Varid{aux}\;\anonymous \;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
 \\
 \>[9]{}\hsindent{2}{}\<[11]%
-\>[11]{}\Varid{aux}\;(\Varid{pm},(\Varid{vm},\Varid{dm}))\;((\Varid{p},(\Varid{v},\Varid{d}))\mathbin{:}\Varid{as}){}\<[E]%
+\>[11]{}\Varid{aux}\;(\Varid{maxP},(\Varid{maxV},\Varid{maxD}))\;((\Varid{p},(\Varid{v},\Varid{d}))\mathbin{:}\Varid{rest}){}\<[E]%
 \\
 \>[11]{}\hsindent{2}{}\<[13]%
-\>[13]{}\mid \Varid{pm}\equiv \Varid{p}\mathrel{\wedge}\Varid{dm}\equiv \mathrm{0}\mathrel{=}(\Varid{p},(\Varid{v}\mathbin{\Varid{`div`}}\mathrm{2},\succ \;\Varid{d}))\mathbin{:}\Varid{aux}\;(\Varid{pm},(\Varid{vm},\Varid{dm}))\;\Varid{as}{}\<[E]%
+\>[13]{}\mid \Varid{maxP}\equiv \Varid{p}\mathrel{\wedge}\Varid{maxD}\equiv \mathrm{0}\mathrel{=}(\Varid{p},(\Varid{v}\mathbin{\Varid{`div`}}\mathrm{2},\succ \;\Varid{d}))\mathbin{:}\Varid{aux}\;\Varid{maxPair}\;\Varid{rest}{}\<[E]%
 \\
 \>[11]{}\hsindent{2}{}\<[13]%
-\>[13]{}\mid \Varid{pm}\equiv \Varid{p}\mathrel{=}(\Varid{p},((\Varid{v}\mathbin{*}(\Varid{d}\mathbin{+}\mathrm{1}))\mathbin{\Varid{`div`}}(\Varid{d}\mathbin{+}\mathrm{2}),\succ \;\Varid{d}))\mathbin{:}\Varid{aux}\;(\Varid{pm},(\Varid{vm},\Varid{dm}))\;\Varid{as}{}\<[E]%
+\>[13]{}\mid \Varid{maxP}\equiv \Varid{p}\mathrel{=}(\Varid{p},((\Varid{v}\mathbin{*}\succ \;\Varid{d})\mathbin{\Varid{`div`}}(\Varid{d}\mathbin{+}\mathrm{2}),\succ \;\Varid{d}))\mathbin{:}\Varid{aux}\;\Varid{maxPair}\;\Varid{rest}{}\<[E]%
 \\
 \>[11]{}\hsindent{2}{}\<[13]%
-\>[13]{}\mid \Varid{otherwise}\mathrel{=}(\Varid{p},(\Varid{v},\Varid{d}))\mathbin{:}\Varid{aux}\;(\Varid{pm},(\Varid{vm},\Varid{dm}))\;\Varid{as}{}\<[E]%
+\>[13]{}\mid \Varid{otherwise}\mathrel{=}(\Varid{p},(\Varid{v},\Varid{d}))\mathbin{:}\Varid{aux}\;\Varid{maxPair}\;\Varid{rest}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+Se tiver 0 deputados, para obter os votos, dividimos os votos totais desse partido por 2. 
+Se não for 0, dividimos os votos totais desse partido pelo seu número de deputados mais 2.
+E por fim adicionamos um deputado a esse partido.
 
 \subsection*{Problema 2}
 
