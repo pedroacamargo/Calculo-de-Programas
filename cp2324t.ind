@@ -29,12 +29,13 @@
 
   \item Functor, \hyperpage{6}
   \item Função
-    \subitem $\pi _1$, \hyperpage{6, 7}
-    \subitem $\pi _2$, \hyperpage{6, 7}, \hyperpage{10}
+    \subitem $\pi _1$, \hyperpage{6--8}
+    \subitem $\pi _2$, \hyperpage{6--8}, \hyperpage{10}
     \subitem \emph  {for}, \hyperpage{2, 3}, \hyperpage{7}, 
 		\hyperpage{10}
     \subitem \emph  {length}, \hyperpage{9}
     \subitem \emph  {map}, \hyperpage{7--9}
+    \subitem \emph  {succ}, \hyperpage{8}
 
   \indexspace
 
