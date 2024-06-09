@@ -810,17 +810,7 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 Ao analisar este problema, percebemos que a chave para o resolver seria a forma como 
 construíamos o history. Para isso começámos por definir o \textbf{step} e posteriormente o \textbf{waste}.
 
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{waste}\mathrel{=}\Varid{sum}\comp \map \;(\p1\comp \p2)\comp \Varid{last}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
-O nosso \textbf{waste} soma todos os votos da última lista do history, que contém os votos desperdiçados. 
-
-Já no \textbf{step}, descobrimos o partido com mais votos, 
-se houver empate damos preferência ao partido com menos deputados e verificamos se tem 0 deputados.
+O \textbf{step}, vamos buscar o partido com mais votos através do \textbf{maxPair}.
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -855,12 +845,39 @@ se houver empate damos preferência ao partido com menos deputados e verificamos
 \ColumnHook
 \end{hscode}\resethooks
 
-Se tiver 0 deputados, para obter os votos, dividimos os votos totais desse partido por 2. 
-Se não for 0, dividimos os votos totais desse partido pelo seu número de deputados mais 2.
-E por fim adicionamos um deputado a esse partido.
+Para cada partido, verificamos se é o partido com mais votos ao comparar com \textbf{maxPair}. 
+Se tiver 0 deputados, para obter os "novos" votos, dividimos os votos totais desse partido por 2 e de seguida adicionamos um deputado. 
+Se tiver mais que 0 deputados, os votos irão ser a divisão dos votos totais desse partido pelo seu número de deputados mais 2 e de seguida aumentamos os seus deputados por um.
+Se não for o partido com mais votos, mantemos os votos e os deputados inalterados.
+Por fim, após as verificações aplicamos recursivamente a função \textbf{aux} ao resto da lista.
+
+\vspace{1em}\vspace{1em}
+
+O \textbf{history} é a aplicação da função \textbf{for} ao \textbf{step} por \textbf{i} vezes, é uma lista de listas de partidos com os seus votos e deputados.
+
+
+\begin{align*}
+    0 & \quad [(A,(12000,0)),(B,(7500,0)),(C,(4500,0)),(D,(3000,0))] \\
+    1 & \quad [(A,(6000,1)),(B,(7500,0)),(C,(4500,0)),(D,(3000,0))] \\
+    2 & \quad [(A,(6000,1)),(B,(3750,1)),(C,(4500,0)),(D,(3000,0))] \\
+    3 & \quad [(A,(4000,2)),(B,(3750,1)),(C,(4500,0)),(D,(3000,0))] \\
+    4 & \quad [(A,(4000,2)),(B,(3750,1)),(C,(2250,1)),(D,(3000,0))] \\
+    5 & \quad [(A,(3000,3)),(B,(3750,1)),(C,(2250,1)),(D,(3000,0))] \\
+    6 & \quad [(A,(3000,3)),(B,(2500,2)),(C,(2250,1)),(D,(3000,0))] \\
+    7 & \quad [(A,(3000,3)),(B,(2500,2)),(C,(2250,1)),(D,(1500,1))]
+\end{align*}
+
+Já o nosso \textbf{waste} soma todos os votos da última lista do \textbf{history}, que contém os votos desperdiçados. 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{waste}\mathrel{=}\Varid{sum}\comp \map \;(\p1\comp \p2)\comp \Varid{last}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
 \subsection*{Problema 2}
-Para a descoberta dos genes f e g referentes ao hilomorfismo mergek, elaboramos o seguinte diagrama:
+Para a descoberta dos genes \textbf{f} e \textbf{g} referentes ao hilomorfismo \textbf{mergek}, elaboramos o seguinte diagrama:
 
 -- Grafico 
 
@@ -905,12 +922,12 @@ Genes de \ensuremath{\Varid{mergek}}:
 \>[9]{}\Varid{x}\mathrel{=}\Varid{filter}\;(\not\equiv [\mskip1.5mu \mskip1.5mu])\;\Varid{l}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
-Na nossa resolução o "núcleo" do algoritmo é realizado em grande parte pelo anamorfismo, ficando como um catamorfismo que é o inList.
+Na nossa resolução o "núcleo" do algoritmo é realizado em grande parte pelo anamorfismo, ficando como um catamorfismo que é o \textbf{inList}.
 
 
 \noindent Extensão de \ensuremath{\Varid{mSort}}:
 
-Utilizamos a função chunksOf para dividir a lista em k partes, assegurando que a divisão só ocorre se o comprimento da lista for superior a k. Desta forma, evitamos que o algoritmo entre em ciclo infinito. Posteriormente, utilizamos a função mergek para juntar as partes ordenadas.
+Utilizamos a função \textbf{chunksOf} para dividir a lista em k partes, assegurando que a divisão só ocorre se o comprimento da lista for superior a k. Desta forma, evitamos que o algoritmo entre em ciclo infinito. Posteriormente, utilizamos a função \textbf{mergek} para juntar as partes ordenadas.
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -954,7 +971,7 @@ C_n = \frac{(2n)!}{(n+1)! (n!) }
     C_n = \frac{2(2n-1)(2n-2)!}{(n+1)n!*(n-1)(n-2)! }
     \label{eq:cat}
 \end{eqnarray}
-...
+\hspace{2cm} ...
 
 A continuação da simplificação matemática mostraria que era possível
 o número dé Catalan atual, usando o número de Catalan anterior.
@@ -965,23 +982,25 @@ Pelo link da Wikipédia disponibilizada pela equipa docente sabemos que:
     \label{eq:cat}
 \end{eqnarray}
 \begin{eqnarray}
-    C_n = \frac{2(2n-1)}{n+1 }*C_n-1
+    C_n = \frac{2(2n-1)}{n+1 }*C_{n-1}
     \label{eq:cat}
 \end{eqnarray}
 Que iremos simplificar para 
 \begin{eqnarray}
-    C_n = \frac{4n-2}{n+1 }*C_n-1
+    C_n = \frac{4n-2}{n+1 }*C_{n-1}
     \label{eq:cat}
 \end{eqnarray}
 Para reduzir o número de operações.
 
-Sabendo como se escreve \begin{eqnarray}C_n\label{eq:cat}
-\end{eqnarray} através de \begin{eqnarray}C_n-1\label{eq:cat}
-\end{eqnarray} é possível escrever a recursividade mútua do algoritmo.
+Sabendo como se escreve 
+\begin{eqnarray}C_n\label{eq:cat}\end{eqnarray} 
+através de 
+\begin{eqnarray}C_{n-1}\label{eq:cat}\end{eqnarray} 
+é possível escrever a recursividade mútua do algoritmo.
 
-O nosso inic será composto por um par (a,b) que será inicializado com (1,1).
-O loop é responsável por aplicar a função succ ao primeiro elemneto do inic e no segundo elemento chamar a função recursiva.
-A primeira componente do inic serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
+O nosso \textbf{inic} será composto por um par (a,b) que será inicializado com (1,1).
+O loop é responsável por aplicar a função succ ao primeiro elemneto do \textbf{inic} e no segundo elemento chamar a função recursiva.
+A primeira componente do \textbf{inic} serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
 Sendo assim, ficamos com o seguinte algoritmo:
 
 \begin{hscode}\SaveRestoreHook
