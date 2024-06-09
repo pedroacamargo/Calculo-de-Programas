@@ -807,10 +807,7 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 \end{alert}
 
 \subsection*{Problema 1}
-Ao analisar este problema, percebemos que a chave para o resolver seria a forma como 
-construíamos o history. Para isso começámos por definir o \textbf{step} e posteriormente o \textbf{waste}.
-
-O \textbf{step}, vamos buscar o partido com mais votos através do \textbf{maxPair}.
+Ao analisar o problema, percebemos que a resolucao do mesmo dependia do tipo de informação contida no history. Para isso começámos por definir o \textbf{step} e posteriormente o \textbf{waste}.
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -835,25 +832,24 @@ O \textbf{step}, vamos buscar o partido com mais votos através do \textbf{maxPa
 \>[11]{}\Varid{aux}\;(\Varid{maxP},(\Varid{maxV},\Varid{maxD}))\;((\Varid{p},(\Varid{v},\Varid{d}))\mathbin{:}\Varid{rest}){}\<[E]%
 \\
 \>[11]{}\hsindent{2}{}\<[13]%
-\>[13]{}\mid \Varid{maxP}\equiv \Varid{p}\mathrel{\wedge}\Varid{maxD}\equiv \mathrm{0}\mathrel{=}(\Varid{p},(\Varid{v}\mathbin{\Varid{`div`}}\mathrm{2},\succ \;\Varid{d}))\mathbin{:}\Varid{aux}\;\Varid{maxPair}\;\Varid{rest}{}\<[E]%
+\>[13]{}\mid \Varid{maxP}\equiv \Varid{p}\mathrel{\wedge}\Varid{maxD}\equiv \mathrm{0}\mathrel{=}(\Varid{p},(\Varid{v}\mathbin{\Varid{`div`}}\mathrm{2},\succ \;\Varid{d}))\mathbin{:}\Varid{rest}{}\<[E]%
 \\
 \>[11]{}\hsindent{2}{}\<[13]%
-\>[13]{}\mid \Varid{maxP}\equiv \Varid{p}\mathrel{=}(\Varid{p},((\Varid{v}\mathbin{*}\succ \;\Varid{d})\mathbin{\Varid{`div`}}(\Varid{d}\mathbin{+}\mathrm{2}),\succ \;\Varid{d}))\mathbin{:}\Varid{aux}\;\Varid{maxPair}\;\Varid{rest}{}\<[E]%
+\>[13]{}\mid \Varid{maxP}\equiv \Varid{p}\mathrel{=}(\Varid{p},((\Varid{v}\mathbin{*}\succ \;\Varid{d})\mathbin{\Varid{`div`}}(\Varid{d}\mathbin{+}\mathrm{2}),\succ \;\Varid{d}))\mathbin{:}\Varid{rest}{}\<[E]%
 \\
 \>[11]{}\hsindent{2}{}\<[13]%
 \>[13]{}\mid \Varid{otherwise}\mathrel{=}(\Varid{p},(\Varid{v},\Varid{d}))\mathbin{:}\Varid{aux}\;\Varid{maxPair}\;\Varid{rest}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
-Para cada partido, verificamos se é o partido com mais votos ao comparar com \textbf{maxPair}. 
+A cada iteração calculamos o partido com o maior número de votos e guardamos a informação em \textbf{maxPair}.
 Se tiver 0 deputados, para obter os "novos" votos, dividimos os votos totais desse partido por 2 e de seguida adicionamos um deputado. 
-Se tiver mais que 0 deputados, os votos irão ser a divisão dos votos totais desse partido pelo seu número de deputados mais 2 e de seguida aumentamos os seus deputados por um.
-Se não for o partido com mais votos, mantemos os votos e os deputados inalterados.
-Por fim, após as verificações aplicamos recursivamente a função \textbf{aux} ao resto da lista.
+Se tiver mais que 0 deputados, os votos irão ser a divisão dos votos totais desse partido pelo seu número de deputados mais 2, de seguida aumentamos o número de deputados.
+Por fim, se não for o partido com mais votos, mantemos os votos e os deputados inalterados.
 
 \vspace{1em}\vspace{1em}
 
-O \textbf{history} é a aplicação da função \textbf{for} ao \textbf{step} por \textbf{i} vezes, é uma lista de listas de partidos com os seus votos e deputados.
+O \textbf{history} é a aplicação da função \textbf{for} \textbf{step} \textbf{db} em \textbf{i} vezes, que origina uma lista de listas possuindo a informação referente a cada patido (votos, deputados).
 
 
 \begin{align*}
@@ -974,7 +970,7 @@ C_n = \frac{(2n)!}{(n+1)! (n!) }
 \hspace{2cm} ...
 
 A continuação da simplificação matemática mostraria que era possível
-o número dé Catalan atual, usando o número de Catalan anterior.
+obter o número de Catalan atual, usando o número de Catalan anterior.
 
 Pelo link da Wikipédia disponibilizada pela equipa docente sabemos que:
 \begin{eqnarray}
@@ -999,8 +995,8 @@ através de
 é possível escrever a recursividade mútua do algoritmo.
 
 O nosso \textbf{inic} será composto por um par (a,b) que será inicializado com (1,1).
-O loop é responsável por aplicar a função succ ao primeiro elemneto do \textbf{inic} e no segundo elemento chamar a função recursiva.
-A primeira componente do \textbf{inic} serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
+O loop é responsável por aplicar a função succ ao primeiro elemento e a executar a chamada recursiva no segundo elemento do \textbf{inic}.
+A primeira componente serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
 Sendo assim, ficamos com o seguinte algoritmo:
 
 \begin{hscode}\SaveRestoreHook

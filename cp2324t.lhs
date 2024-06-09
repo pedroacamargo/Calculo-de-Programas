@@ -593,10 +593,7 @@ texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
 \end{alert}
 
 \subsection*{Problema 1}
-Ao analisar este problema, percebemos que a chave para o resolver seria a forma como 
-construíamos o history. Para isso começámos por definir o \textbf{step} e posteriormente o \textbf{waste}.
-
-O \textbf{step}, vamos buscar o partido com mais votos através do \textbf{maxPair}.
+Ao analisar o problema, percebemos que a resolucao do mesmo dependia do tipo de informação contida no history. Para isso começámos por definir o \textbf{step} e posteriormente o \textbf{waste}.
 
 \begin{code}
 step [] = []
@@ -605,20 +602,19 @@ step l = aux maxPair l
           maxPair = maximumBy (comparing (p1 . p2)) l
           aux _ [] = []
           aux (maxP, (maxV, maxD)) ((p, (v, d)) : rest)
-            | maxP == p && maxD == 0 = (p, (v `div` 2, succ d)) : aux maxPair rest
-            | maxP == p = (p, ((v * succ d) `div` (d + 2), succ d)) : aux maxPair rest
+            | maxP == p && maxD == 0 = (p, (v `div` 2, succ d)) : rest
+            | maxP == p = (p, ((v * succ d) `div` (d + 2), succ d)) : rest
             | otherwise = (p, (v, d)) : aux maxPair rest
 \end{code}
 
-Para cada partido, verificamos se é o partido com mais votos ao comparar com \textbf{maxPair}. 
+A cada iteração calculamos o partido com o maior número de votos e guardamos a informação em \textbf{maxPair}.
 Se tiver 0 deputados, para obter os "novos" votos, dividimos os votos totais desse partido por 2 e de seguida adicionamos um deputado. 
-Se tiver mais que 0 deputados, os votos irão ser a divisão dos votos totais desse partido pelo seu número de deputados mais 2 e de seguida aumentamos os seus deputados por um.
-Se não for o partido com mais votos, mantemos os votos e os deputados inalterados.
-Por fim, após as verificações aplicamos recursivamente a função \textbf{aux} ao resto da lista.
+Se tiver mais que 0 deputados, os votos irão ser a divisão dos votos totais desse partido pelo seu número de deputados mais 2, de seguida aumentamos o número de deputados.
+Por fim, se não for o partido com mais votos, mantemos os votos e os deputados inalterados.
 
 \vspace{1em}\vspace{1em}
 
-O \textbf{history} é a aplicação da função \textbf{for} ao \textbf{step} por \textbf{i} vezes, é uma lista de listas de partidos com os seus votos e deputados.
+O \textbf{history} é a aplicação da função \textbf{for} \textbf{step} \textbf{db} em \textbf{i} vezes, que origina uma lista de listas possuindo a informação referente a cada patido (votos, deputados).
 
 
 \begin{align*}
@@ -699,7 +695,7 @@ C_n = \frac{(2n)!}{(n+1)! (n!) }
 \hspace{2cm} ...
 
 A continuação da simplificação matemática mostraria que era possível
-o número dé Catalan atual, usando o número de Catalan anterior.
+obter o número de Catalan atual, usando o número de Catalan anterior.
 
 Pelo link da Wikipédia disponibilizada pela equipa docente sabemos que:
 \begin{eqnarray}
@@ -724,8 +720,8 @@ através de
 é possível escrever a recursividade mútua do algoritmo.
 
 O nosso \textbf{inic} será composto por um par (a,b) que será inicializado com (1,1).
-O loop é responsável por aplicar a função succ ao primeiro elemneto do \textbf{inic} e no segundo elemento chamar a função recursiva.
-A primeira componente do \textbf{inic} serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
+O loop é responsável por aplicar a função succ ao primeiro elemento e a executar a chamada recursiva no segundo elemento do \textbf{inic}.
+A primeira componente serve para guardar a iteração atual, já a segunda guarda o número de Catalan.
 Sendo assim, ficamos com o seguinte algoritmo:
 
 \begin{code}
