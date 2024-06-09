@@ -622,6 +622,9 @@ Se não for 0, dividimos os votos totais desse partido pelo seu número de deput
 E por fim adicionamos um deputado a esse partido.
 
 \subsection*{Problema 2}
+Para a descoberta dos genes f e g referentes ao hilomorfismo mergek, elaboramos o seguinte diagrama:
+
+-- Grafico 
 
 Genes de |mergek|:
 \begin{code}
@@ -639,15 +642,22 @@ g l = if filter (/= []) l == []
                         else h : aux m t 
         x = filter (/= []) l
 \end{code}
+Na nossa resolução o "núcleo" do algoritmo é realizado em grande parte pelo anamorfismo, ficando como um catamorfismo que é o inList.
+
 
 \noindent Extensão de |mSort|:
+
+Utilizamos a função chunksOf para dividir a lista em k partes, assegurando que a divisão só ocorre se o comprimento da lista for superior a k. Desta forma, evitamos que o algoritmo entre em ciclo infinito. Posteriormente, utilizamos a função mergek para juntar as partes ordenadas.
 \begin{code}
 mSortk k [] = []
 mSortk k l
     | length l <= 1 = l
-    | otherwise = let chunks = chunksOf (length l `div` k) l
+    | otherwise = let chunks = chunksOf (if length l <= k then 1 else k) l
                 in mergek (map (mSortk k) chunks)
 \end{code}
+Com uma abordagem que divide a lista em k partes, é possível reduzir significativamente o número de comparações e operações necessárias para ordenar a lista, tornando o algoritmo mais eficiente. Este método beneficia do paralelismo, uma vez que permite dividir a lista em k partes e ordená-las em simultâneo.
+
+Cada parte pode ser ordenada de forma independente e, posteriormente, combinada para formar a lista ordenada final. Isto não só distribui a carga de trabalho, como também reduz o tempo total de execução. Esta abordagem é escalável, podendo ser ajustada para diferentes tamanhos de listas.
 
 \subsection*{Problema 3}
 Para a simplificação do algoritmo de Catalan sem recurso ao cálculo dos factoriais

@@ -860,6 +860,9 @@ Se não for 0, dividimos os votos totais desse partido pelo seu número de deput
 E por fim adicionamos um deputado a esse partido.
 
 \subsection*{Problema 2}
+Para a descoberta dos genes f e g referentes ao hilomorfismo mergek, elaboramos o seguinte diagrama:
+
+-- Grafico 
 
 Genes de \ensuremath{\Varid{mergek}}:
 \begin{hscode}\SaveRestoreHook
@@ -902,8 +905,12 @@ Genes de \ensuremath{\Varid{mergek}}:
 \>[9]{}\Varid{x}\mathrel{=}\Varid{filter}\;(\not\equiv [\mskip1.5mu \mskip1.5mu])\;\Varid{l}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+Na nossa resolução o "núcleo" do algoritmo é realizado em grande parte pelo anamorfismo, ficando como um catamorfismo que é o inList.
+
 
 \noindent Extensão de \ensuremath{\Varid{mSort}}:
+
+Utilizamos a função chunksOf para dividir a lista em k partes, assegurando que a divisão só ocorre se o comprimento da lista for superior a k. Desta forma, evitamos que o algoritmo entre em ciclo infinito. Posteriormente, utilizamos a função mergek para juntar as partes ordenadas.
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -917,12 +924,15 @@ Genes de \ensuremath{\Varid{mergek}}:
 \>[5]{}\mid \length \;\Varid{l}\leq \mathrm{1}\mathrel{=}\Varid{l}{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
-\>[5]{}\mid \Varid{otherwise}\mathrel{=}\mathbf{let}\;\Varid{chunks}\mathrel{=}\Varid{chunksOf}\;(\length \;\Varid{l}\mathbin{\Varid{`div`}}\Varid{k})\;\Varid{l}{}\<[E]%
+\>[5]{}\mid \Varid{otherwise}\mathrel{=}\mathbf{let}\;\Varid{chunks}\mathrel{=}\Varid{chunksOf}\;(\mathbf{if}\;\length \;\Varid{l}\leq \Varid{k}\;\mathbf{then}\;\mathrm{1}\;\mathbf{else}\;\Varid{k})\;\Varid{l}{}\<[E]%
 \\
 \>[5]{}\hsindent{12}{}\<[17]%
 \>[17]{}\mathbf{in}\;\Varid{mergek}\;(\map \;(\Varid{mSortk}\;\Varid{k})\;\Varid{chunks}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+Com uma abordagem que divide a lista em k partes, é possível reduzir significativamente o número de comparações e operações necessárias para ordenar a lista, tornando o algoritmo mais eficiente. Este método beneficia do paralelismo, uma vez que permite dividir a lista em k partes e ordená-las em simultâneo.
+
+Cada parte pode ser ordenada de forma independente e, posteriormente, combinada para formar a lista ordenada final. Isto não só distribui a carga de trabalho, como também reduz o tempo total de execução. Esta abordagem é escalável, podendo ser ajustada para diferentes tamanhos de listas.
 
 \subsection*{Problema 3}
 Para a simplificação do algoritmo de Catalan sem recurso ao cálculo dos factoriais
