@@ -639,7 +639,7 @@ waste = sum . map (p1 . p2) . last
 Para a descoberta dos genes \textbf{f} e \textbf{g} referentes ao hilomorfismo \textbf{mergek}, elaboramos o seguinte diagrama:
 
 \begin{eqnarray*}         
-\xymatrix@@C=2cm{
+\xymatrix@@C=3cm{
     (A^{*})^{*}
            \ar[r]^-{\mathsf{divide}}
            \ar[d]_-{mergeK}
@@ -754,7 +754,7 @@ prj = p2
 Diagrama para a resolução do problema:
 
 \begin{eqnarray*}         
-\xymatrix@@C=2cm{
+\xymatrix@@C=5cm{
     A^{*}
            \ar[r]^-{\mathsf{g}}
            \ar[d]_-{[(subL)]}
