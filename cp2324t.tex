@@ -468,6 +468,8 @@ esquerda da figura abaixo, que mostra o histograma correspondente à sequência 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{h}\mathbin{::}[\mskip1.5mu \Conid{Int}\mskip1.5mu]{}\<[E]%
+\\
 \>[B]{}\Varid{h}\mathrel{=}[\mskip1.5mu \mathrm{2},\mathrm{1},\mathrm{5},\mathrm{6},\mathrm{2},\mathrm{3}\mskip1.5mu]{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
@@ -875,7 +877,21 @@ Já o nosso \textbf{waste} soma todos os votos da última lista do \textbf{histo
 \subsection*{Problema 2}
 Para a descoberta dos genes \textbf{f} e \textbf{g} referentes ao hilomorfismo \textbf{mergek}, elaboramos o seguinte diagrama:
 
--- Grafico 
+\begin{eqnarray*}         
+\xymatrix@C=2cm{
+    (A^{*})^{*}
+           \ar[r]^-{\mathsf{divide}}
+           \ar[d]_-{mergeK}
+&
+    1 + A \ensuremath{\times} (A^{*})^{*}
+           \ar[d]^-{id + id \ensuremath{\times} mergeK}
+\\
+    A^{*}
+&
+    1 + A \ensuremath{\times} A^{*}
+           \ar[l]^-{\mathsf{conquer = [nil, cons]}}
+}
+\end{eqnarray*}
 
 Genes de \ensuremath{\Varid{mergek}}:
 \begin{hscode}\SaveRestoreHook
@@ -1019,10 +1035,56 @@ onde:
 
 \subsection*{Problema 4}
 
+Diagrama para a resolução do problema:
+
+\begin{eqnarray*}         
+\xymatrix@C=2cm{
+    A^{*}
+           \ar[r]^-{\mathsf{g}}
+           \ar[d]_-{[(subL)]}
+&
+    1 + A^{*} \ensuremath{\times} A^{*}
+           \ar[d]^-{id + id \ensuremath{\times} subL}
+\\
+    (A^{*})^{*}
+        \ar@/^/[r]^-{\mathsf{out}}
+        \ar[d]_-{(\ensuremath{[\mskip1.5mu \Varid{maximum}\comp \map \;\Varid{lR}\mskip1.5mu]})}
+&
+    1 + A^{*} \ensuremath{\times} (A^{*})^{*}
+           \ar@/^/[l]^-{\mathsf{in = [nil, concat]}}
+           \ar[d]^-{id + id \ensuremath{\times} (\ensuremath{\Varid{maximum}\comp \map \;\Varid{lR}})}
+\\
+    A
+&
+    1 + A^{*} \ensuremath{\times} A
+           \ar[l]^-{\mathsf{f}}
+}
+\end{eqnarray*}
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{lrh}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{lrh}\mathrel{=}(\Varid{maximum}\comp \map \;\Varid{lR})\comp \Varid{subL}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{subL}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{subL}\;\Varid{xs}\mathrel{=}\Varid{xs}\mathbin{:}\Varid{subL}\;(\Varid{tail}\;\Varid{xs}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{lR}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\mathrm{0}{}\<[E]%
+\\
+\>[B]{}\Varid{lR}\;[\mskip1.5mu \Varid{x}\mskip1.5mu]\mathrel{=}\Varid{x}{}\<[E]%
+\\
+\>[B]{}\Varid{lR}\;(\Varid{x}\mathbin{:}\Varid{y}\mathbin{:}\Varid{xs}){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{x}\mathbin{>}\Varid{y}{}\<[17]%
+\>[17]{}\mathrel{=}\Varid{x}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{x}\leq \Varid{y}{}\<[17]%
+\>[17]{}\mathrel{=}\Varid{x}\mathbin{+}\Varid{lR}\;(\Varid{x}\mathbin{:}\Varid{xs}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 

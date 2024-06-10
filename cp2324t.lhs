@@ -303,6 +303,7 @@ Esta questão aborda um problema que é conhecido pela designação \emph{Larges
 Rectangle in Histogram}. Precebe-se facilmente do que se trata olhando para a parte
 esquerda da figura abaixo, que mostra o histograma correspondente à sequência numérica:
 \begin{code}
+h :: [Int]
 h = [2,1,5,6,2,3]
 \end{code}
 
@@ -637,7 +638,21 @@ waste = sum . map (p1 . p2) . last
 \subsection*{Problema 2}
 Para a descoberta dos genes \textbf{f} e \textbf{g} referentes ao hilomorfismo \textbf{mergek}, elaboramos o seguinte diagrama:
 
--- Grafico 
+\begin{eqnarray*}         
+\xymatrix@@C=2cm{
+    (A^{*})^{*}
+           \ar[r]^-{\mathsf{divide}}
+           \ar[d]_-{mergeK}
+&
+    1 + A |><| (A^{*})^{*}
+           \ar[d]^-{id + id |><| mergeK}
+\\
+    A^{*}
+&
+    1 + A |><| A^{*}
+           \ar[l]^-{\mathsf{conquer = [nil, cons]}}
+}
+\end{eqnarray*}
 
 Genes de |mergek|:
 \begin{code}
@@ -736,8 +751,45 @@ prj = p2
 
 \subsection*{Problema 4}
 
+Diagrama para a resolução do problema:
+
+\begin{eqnarray*}         
+\xymatrix@@C=2cm{
+    A^{*}
+           \ar[r]^-{\mathsf{g}}
+           \ar[d]_-{[(subL)]}
+&
+    1 + A^{*} |><| A^{*}
+           \ar[d]^-{id + id |><| subL}
+\\
+    (A^{*})^{*}
+        \ar@@/^/[r]^-{\mathsf{out}}
+        \ar[d]_-{(|[maximum . map lR]|)}
+&
+    1 + A^{*} |><| (A^{*})^{*}
+           \ar@@/^/[l]^-{\mathsf{in = [nil, concat]}}
+           \ar[d]^-{id + id |><| (|maximum . map lR|)}
+\\
+    A
+&
+    1 + A^{*} |><| A
+           \ar[l]^-{\mathsf{f}}
+}
+\end{eqnarray*}
+
 \begin{code}
-lrh = undefined
+lrh = (maximum . map lR) . subL
+
+
+subL [] = []
+subL xs = xs : subL (tail xs)
+
+
+lR [] = 0
+lR [x] = x
+lR (x:y:xs)
+    | x > y     = x
+    | x <= y    = x + lR (x:xs)
 
 \end{code}
 
