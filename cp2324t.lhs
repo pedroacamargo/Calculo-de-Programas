@@ -751,7 +751,7 @@ prj = p2
 
 \subsection*{Problema 4}
 
-Neste problema, recebemos uma lista de números, que cada um representa a área dos retângulos do histograma, e queremos encontrar o maior retângulo do histograma.
+Neste problema, recebemos uma lista de números que representam as áreas dos retângulos do histograma, e queremos encontrar o maior retângulo contido no histograma.
 
 Diagrama para a resolução do problema:
 
