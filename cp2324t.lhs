@@ -751,6 +751,8 @@ prj = p2
 
 \subsection*{Problema 4}
 
+Neste problema, recebemos uma lista de números, que cada um representa a área dos retângulos do histograma, e queremos encontrar o maior retângulo do histograma.
+
 Diagrama para a resolução do problema:
 
 \begin{eqnarray*}         
@@ -777,7 +779,9 @@ Diagrama para a resolução do problema:
 }
 \end{eqnarray*}
 
-Neste problema, recebemos uma lista e queremos encontrar o maior retângulo que podemos formar com ela. Para isso, utilizamos um \textbf{hyloList} que é composto por \textbf{cataList} após \textbf{anaList}.
+Para o resolver, usamos um hilomorfismo. Primeiramente, o anamorfismo \textbf{[( m )]} gera uma lista de listas retira constantemente a cabeça da lista anterior. Por exemplo, se aplicarmos \textbf{[( m )]} à lista [1,2,3] obtemos a lista de listas [[1,2,3], [2,3], [3]]. \\
+Já no catamorfismo, para cada uma destas sublistas, calculamos o maior retângulo a partir da cabeça da lista. No exemplo passado, seria calculado o maior retângulo a começar na barra 1, o maior começado barra 2 e a começar na barra 3. A nossa função \textbf{lR} faz esse cálculo. \\
+Após aplicar a função \textbf{map lR} ao resultado do anamorfismo, precisamos de determinar qual é o maior valor.
 
 \begin{code}
 
@@ -797,7 +801,7 @@ n = gmax . baseList lR id
 lrh = hyloList n m
 
 \end{code}
-\quad Para o resolver, primeiramente aplicamos à lista o anamorfismo que irá dar lista de listas, e por fim aplicamos o catamorfismo que irá calcular o maior retângulo, que é a composição do \textbf{baseList} de aplicar \textbf{lR} em todas as listas e de seguida o \textbf{gmax} para descobrir o maior retângulo.  
+Para concluir, o nosso \textbf{gmax} é o gene do catamorfismo \textbf{maximum} e usamos a lei de absorção-cata para escrever \textbf{maximum . (map lR)} como um catamorfismo de gene \textbf{gmax . baseList lR id} e assim obtemos a solução final.
 
 %----------------- Índice remissivo (exige makeindex) -------------------------%
 
