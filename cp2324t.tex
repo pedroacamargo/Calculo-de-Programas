@@ -1040,37 +1040,37 @@ Diagrama para a resolução do problema:
 \begin{eqnarray*}         
 \xymatrix@C=5cm{
     A^{*}
-           \ar[r]^-{\mathsf{g}}
-           \ar[d]_-{[(subL)]}
+           \ar[r]^-{\mathsf{m}}
+           \ar[d]_-{[(m)]}
 &
     1 + A^{*} \ensuremath{\times} A^{*}
-           \ar[d]^-{id + id \ensuremath{\times} subL}
+           \ar[d]^-{id + id \ensuremath{\times} m}
 \\
     (A^{*})^{*}
         \ar@/^/[r]^-{\mathsf{out}}
-        \ar[d]_-{(\ensuremath{[\mskip1.5mu \Varid{maximum}\comp \map \;\Varid{lR}\mskip1.5mu]})}
+        \ar[d]_-{([n])}
 &
     1 + A^{*} \ensuremath{\times} (A^{*})^{*}
-           \ar@/^/[l]^-{\mathsf{in = [nil, concat]}}
-           \ar[d]^-{id + id \ensuremath{\times} (\ensuremath{\Varid{maximum}\comp \map \;\Varid{lR}})}
+           \ar@/^/[l]^-{\mathsf{in = [nil, cons]}}
+           \ar[d]^-{id + id \ensuremath{\times} n}
 \\
     A
 &
     1 + A^{*} \ensuremath{\times} A
-           \ar[l]^-{\mathsf{f}}
+           \ar[l]^-{\mathsf{n}}
 }
 \end{eqnarray*}
+
+Neste problema, recebemos uma lista e queremos encontrar o maior retângulo que podemos formar com ela. Para isso, utilizamos um \textbf{hyloList} que é composto por \textbf{cataList} após \textbf{anaList}.
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{17}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{lrh}\mathrel{=}(\Varid{maximum}\comp \map \;\Varid{lR})\comp \Varid{subL}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{subL}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\>[B]{}\Varid{m}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}i_1\;(){}\<[E]%
 \\
-\>[B]{}\Varid{subL}\;\Varid{xs}\mathrel{=}\Varid{xs}\mathbin{:}\Varid{subL}\;(\Varid{tail}\;\Varid{xs}){}\<[E]%
+\>[B]{}\Varid{m}\;\Varid{x}\mathrel{=}i_2\;(\Varid{x},\Varid{tail}\;\Varid{x}){}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{lR}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\mathrm{0}{}\<[E]%
 \\
@@ -1085,8 +1085,15 @@ Diagrama para a resolução do problema:
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mid \Varid{x}\leq \Varid{y}{}\<[17]%
 \>[17]{}\mathrel{=}\Varid{x}\mathbin{+}\Varid{lR}\;(\Varid{x}\mathbin{:}\Varid{xs}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{gmax}\mathrel{=}\alt{\underline{\mathrm{0}}}{\Varid{umax}}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{n}\mathrel{=}\Varid{gmax}\comp \Varid{baseList}\;\Varid{lR}\;\Varid{id}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{lrh}\mathrel{=}\hyloList{\Varid{n}}{\Varid{m}}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+\quad Para o resolver, primeiramente aplicamos à lista o anamorfismo que irá dar lista de listas, e por fim aplicamos o catamorfismo que irá calcular o maior retângulo, que é a composição do \textbf{baseList} de aplicar \textbf{lR} em todas as listas e de seguida o \textbf{gmax} para descobrir o maior retângulo.  
 
 %----------------- Índice remissivo (exige makeindex) -------------------------%
 

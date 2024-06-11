@@ -9,8 +9,9 @@
   \indexspace
 
   \item Combinador ``pointfree''
+    \subitem \emph  {either}, \hyperpage{11}
     \subitem \emph  {hylo}
-      \subsubitem Listas, \hyperpage{2}
+      \subsubitem Listas, \hyperpage{2}, \hyperpage{11}
     \subitem \emph  {split}, \hyperpage{6}
   \item Comissão Nacional de Eleições, \hyperpage{1}
     \subitem Método de Hondt, \hyperpage{1}
@@ -34,7 +35,7 @@
     \subitem \emph  {for}, \hyperpage{2, 3}, \hyperpage{7}, 
 		\hyperpage{11}
     \subitem \emph  {length}, \hyperpage{10}
-    \subitem \emph  {map}, \hyperpage{7}, \hyperpage{9--11}
+    \subitem \emph  {map}, \hyperpage{7}, \hyperpage{9, 10}
     \subitem \emph  {succ}, \hyperpage{8}
 
   \indexspace

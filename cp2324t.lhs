@@ -756,34 +756,33 @@ Diagrama para a resolução do problema:
 \begin{eqnarray*}         
 \xymatrix@@C=5cm{
     A^{*}
-           \ar[r]^-{\mathsf{g}}
-           \ar[d]_-{[(subL)]}
+           \ar[r]^-{\mathsf{m}}
+           \ar[d]_-{[(m)]}
 &
     1 + A^{*} |><| A^{*}
-           \ar[d]^-{id + id |><| subL}
+           \ar[d]^-{id + id |><| m}
 \\
     (A^{*})^{*}
         \ar@@/^/[r]^-{\mathsf{out}}
-        \ar[d]_-{(|[maximum . map lR]|)}
+        \ar[d]_-{([n])}
 &
     1 + A^{*} |><| (A^{*})^{*}
-           \ar@@/^/[l]^-{\mathsf{in = [nil, concat]}}
-           \ar[d]^-{id + id |><| (|maximum . map lR|)}
+           \ar@@/^/[l]^-{\mathsf{in = [nil, cons]}}
+           \ar[d]^-{id + id |><| n}
 \\
     A
 &
     1 + A^{*} |><| A
-           \ar[l]^-{\mathsf{f}}
+           \ar[l]^-{\mathsf{n}}
 }
 \end{eqnarray*}
 
+Neste problema, recebemos uma lista e queremos encontrar o maior retângulo que podemos formar com ela. Para isso, utilizamos um \textbf{hyloList} que é composto por \textbf{cataList} após \textbf{anaList}.
+
 \begin{code}
-lrh = (maximum . map lR) . subL
 
-
-subL [] = []
-subL xs = xs : subL (tail xs)
-
+m [] = i1()
+m x = i2(x, tail x)
 
 lR [] = 0
 lR [x] = x
@@ -791,7 +790,14 @@ lR (x:y:xs)
     | x > y     = x
     | x <= y    = x + lR (x:xs)
 
+gmax = either (const 0) umax
+
+n = gmax . baseList lR id
+
+lrh = hyloList n m
+
 \end{code}
+\quad Para o resolver, primeiramente aplicamos à lista o anamorfismo que irá dar lista de listas, e por fim aplicamos o catamorfismo que irá calcular o maior retângulo, que é a composição do \textbf{baseList} de aplicar \textbf{lR} em todas as listas e de seguida o \textbf{gmax} para descobrir o maior retângulo.  
 
 %----------------- Índice remissivo (exige makeindex) -------------------------%
 
